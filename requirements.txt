@@ -1,0 +1,6 @@
+flask
+flask-mysqldb
+pytesseract
+pillow
+mysqlclient
+pip install flask-login -i https://mirrors.aliyun.com/pypi/simple/

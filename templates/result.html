@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Recognition Result{% endblock %}
+
+{% block content %}
+<h1>Recognition Result</h1>
+<form method="POST" action="{{ url_for('save_recognition') }}">
+    <textarea name="recognized_text" rows="10" cols="50">{{ text }}</textarea>
+    <button type="submit">保存</button>
+</form>
+{% endblock %}

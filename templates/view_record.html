@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Record Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Recognition Record Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="document_type">证件类型：</label>
+                    <input type="text" class="form-control" id="document_type" name="document_type" value="{{ record[2] }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="recognized_text">识别内容：</label>
+                    <textarea class="form-control" id="recognized_text" name="recognized_text" rows="10" readonly>{{ record[3] }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="created_at">创建时间：</label>
+                    <input type="text" class="form-control" id="created_at" name="created_at" value="{{ record[4] }}" readonly>
+                </div>
+            </form>
+            <a href="{{ url_for('history') }}" class="btn btn-secondary">返回历史记录</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

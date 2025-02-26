@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}首页-证件识别系统{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">欢迎使用证件识别系统</h4>
+                </div>
+                <div class="card-body">
+                    <p>这里是首页的内容，您可以开始使用 OCR 识别系统，上传证件并查看历史记录。</p>
+                    <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">开始上传</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

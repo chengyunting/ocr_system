@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}上传文档{% endblock %}
+
+{% block content %}
+<div class="card border-0">
+    <div class="card-header bg-transparent text-center">
+        <h3 class="mb-0"><i class="fas fa-file-upload me-2"></i>上传文档</h3>
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label class="form-label">选择文件</label>
+                <div class="input-group">
+                    <input type="file" name="file" class="form-control" required>
+                </div>
+            </div>
+            <div class="mb-4 text-center" id="preview"></div>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-check-circle me-2"></i> 上传并识别
+            </button>
+        </form>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.getElementById('file').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('preview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded">`;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}
