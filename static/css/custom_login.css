@@ -1,0 +1,108 @@
+/* 修改后的 global-container 样式 */
+.global-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: url("/static/images/bg-pattern.png") fixed;
+    background-size: 30% auto;
+
+    /* 新增放大比例控制 */
+    transform: scale(1.8); /* 整体放大5% */
+    transform-origin: center center; /* 以容器中心为基准缩放 */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* 防止边缘内容溢出 */
+}
+
+/* 需要反向缩放子元素保持原有比例 */
+.login-wrapper,
+.nav-menu-container,
+.footer {
+    transform: scale(0.9524); /* 1/1.05 ≈ 0.9524 */
+}
+
+/* 登录容器 */
+.login-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+}
+
+/* 登录卡片 */
+.login-card {
+    width: 100%;
+    max-width: 600px;
+    min-width: 450px;
+    background: rgba(255,255,255,0.98);
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    margin: 1rem;
+}
+
+/* 输入框优化 */
+.input-group-text {
+    width: 44px; /* 固定图标容器宽度 */
+    justify-content: center;
+}
+.input-group:focus-within .input-group-text {
+    background-color: #f8f9fa;
+}
+
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .btn-login {
+        font-size: 1.05rem;
+        padding: 0.9rem !important;
+    }
+    .btn-login .material-icons-outlined {
+        font-size: 1.3rem;
+    }
+}
+/* 登录按钮样式 */
+/* 登录按钮优化 */
+.btn-login {
+    width: 100%;
+    padding: 1rem !important; /* 增加内边距 */
+    background: #5c80c4 !important;
+    border: none;
+    border-radius: 10px; /* 更圆润的边角 */
+    color: white !important;
+    font-size: 2rem; /* 放大文字 */
+    font-family: 'Noto Sans SC', sans-serif; /* 使用与页面统一的中文字体 */
+    font-weight: 500;
+    letter-spacing: 2px; /* 增加字间距 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+}
+
+.btn-login:hover {
+    background: #2563eb !important; /* 更深的悬停色 */
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* 图标优化 */
+.btn-login .material-icons-outlined {
+    font-size: 1.6rem; /* 同步放大图标 */
+    margin-right: 0.8rem;
+    filter: brightness(1.2); /* 提升图标亮度 */
+}
+
+/* 标题样式 */
+.login-header h2 {
+    color: #8c98a4 !important;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    text-transform: uppercase; /* 字母大写 */
+    letter-spacing: 2px;
+}

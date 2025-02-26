@@ -5,45 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}OCR 识别系统{% endblock %}</title>
 
-    <!-- 引入Google字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <!-- 引入Material Dashboard CSS -->
-    <link href="{{ url_for('static', filename='assets/css/material-dashboard.min.css') }}" rel="stylesheet">
-
-    <!-- 引入自定义CSS -->
-    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    <!-- MDB 核心 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@6.4.0/css/mdb.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <!-- 自定义基础样式 -->
+    <link href="{{ url_for('static', filename='css/custom_base.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- 导航栏 -->
-    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">OCR 识别系统</a>
+    <nav class="navbar navbar-expand-lg nav-menu-container shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="material-icons-outlined me-2">fingerprint</i>
+                <span class="brand-text">OCR 系统</span>
+            </a>
+
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
-                        <a class="nav-link" href="{{ url_for('home') }}">
-                            <i class="material-icons">dashboard</i>
-                            <p>首页</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {% if request.endpoint == 'upload' %}active{% endif %}">
-                        <a class="nav-link" href="{{ url_for('upload') }}">
-                            <i class="material-icons">file_upload</i>
-                            <p>上传文档</p>
-                        </a>
-                    </li>
-                    <li class="nav-item {% if request.endpoint == 'history' %}active{% endif %}">
-                        <a class="nav-link" href="{{ url_for('history') }}">
-                            <i class="material-icons">history</i>
-                            <p>历史记录</p>
+                <ul class="navbar-nav nav-menu-items mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn-menu" href="{{ url_for('home') }}">
+                            <i class="material-icons-outlined me-2">home</i>
+                            首页
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">
-                            <i class="material-icons">exit_to_app</i>
-                            <p>登出</p>
+                        <a class="nav-link btn-menu" href="{{ url_for('upload') }}">
+                            <i class="material-icons-outlined me-2">cloud_upload</i>
+                            上传文档
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-menu" href="{{ url_for('history') }}">
+                            <i class="material-icons-outlined me-2">history</i>
+                            历史记录
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-menu" href="{{ url_for('logout') }}">
+                            <i class="material-icons-outlined me-2">logout</i>
+                            登出
                         </a>
                     </li>
                 </ul>
@@ -52,23 +54,18 @@
     </nav>
 
     <!-- 主体内容 -->
-    <div class="main-panel">
+    <main class="flex-grow-1 main-content-container">
         {% block content %}{% endblock %}
-    </div>
+    </main>
 
     <!-- 页脚 -->
-    <footer class="footer">
-        <div class="container">
-            <div class="copyright">
-                © 2025 OCR 识别系统
-            </div>
+    <footer class="footer mt-auto py-3">
+        <div class="container text-center">
+            <span class="footer-text">© 2025 OCR 识别系统</span>
         </div>
     </footer>
 
-    <!-- 引入JS文件 -->
-    <script src="{{ url_for('static', filename='assets/js/core/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/js/core/bootstrap-material-design.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/js/material-dashboard.min.js') }}"></script>
+    <!-- JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/mdb-ui-kit@6.4.0/js/mdb.min.js"></script>
 </body>
 </html>

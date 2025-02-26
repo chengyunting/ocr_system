@@ -1,0 +1,61 @@
+/* ========== 注册页面样式 ========== */
+.register-card {
+    width: 100%;
+    max-width: 440px;
+    min-width: 300px;
+    background: rgba(255,255,255,0.98);
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+    padding: 2.5rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    margin: 1rem;
+}
+
+.register-header h2 {
+    color: #8c98a4 !important;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* 保持与登录页面一致的按钮样式 */
+.btn-register {
+    width: 100%;
+    padding: 1.1rem 1.2rem !important;
+    background: #3b82f6 !important;
+    border: none;
+    border-radius: 10px;
+    color: white !important;
+    font-size: 1.25rem;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn-register:hover {
+    background: #2563eb !important;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .register-card {
+        padding: 2rem;
+        min-width: 280px;
+    }
+    .register-header h2 {
+        font-size: 1.1rem;
+    }
+    .btn-register {
+        font-size: 1.15rem;
+        padding: 1rem !important;
+    }
+}
