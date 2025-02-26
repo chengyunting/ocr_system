@@ -1,0 +1,138 @@
+/* 上传主容器 */
+.upload-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.upload-card {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(255,255,255,0.98);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+}
+
+/* 图片预览容器 */
+.image-preview-container {
+    width: 600px !important;
+    height: 400px !important;
+    margin: 1rem auto !important;
+    overflow: hidden !important;
+    position: relative !important;
+    background: #f8f9fa !important;
+    border: 2px dashed #dee2e6 !important;
+    border-radius: 8px;
+}
+
+.default-preview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #adb5bd;
+    z-index: 1;
+}
+
+.image-preview-container.has-image .default-preview {
+    display: none !important;
+}
+
+.preview-image {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.editor-tools {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .image-preview-container {
+        width: 95% !important;
+        height: 50vh !important;
+        max-height: 400px !important;
+    }
+}
+
+.cropper-container {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    background: transparent !important;
+}
+
+.cropper-modal {
+    background: transparent !important;
+}
+
+/* static/css/custom_upload.css */
+/* 新增/修改的关键样式 */
+
+/* 主容器定位 */
+.upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* 卡片容器定位 */
+.upload-card {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* 图片预览容器精准定位 */
+.image-preview-container {
+    width: 600px !important;
+    height: 400px !important;
+    margin: 2rem auto !important;
+    position: relative !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* 图片绝对居中 */
+.preview-image {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+}
+
+/* 操作按钮容器定位 */
+.editor-tools {
+    position: absolute;
+    bottom: -50px; /* 下移50px避开容器 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* 默认提示精准居中 */
+.default-preview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}

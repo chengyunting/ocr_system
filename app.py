@@ -7,10 +7,16 @@ from models.user_model import User
 from models.history_model import History
 from config import Config
 from flask_mysqldb import MySQL
+#upload新添加
+from werkzeug.utils import secure_filename
+import base64
+import tempfile
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 app.config.from_object(Config)  # 加载配置文件
-
+app.secret_key = 'sup3r_s3cr3t_k3y!123'  # 必须设置
+csrf = CSRFProtect(app)  # 新增此行初始化 CSRF
 mysql = MySQL(app)  # 在这里初始化数据库连接
 
 
@@ -75,54 +81,56 @@ def history():
     return render_template('history.html', records=records)
 
 
-# 上传文件并识别
-@app.route('/upload', methods=['GET', 'POST'])
+from werkzeug.utils import secure_filename
+import base64
+import tempfile
+import os
+import cv2
+
+
+@app.route('/upload', methods=['GET', 'POST'])  # 允许GET和POST方法
 def upload():
+    # ========== 登录状态检查 ==========
     if 'user_id' not in session:
-        return redirect(url_for('login'))  # 如果没有登录，重定向到登录页
+        return redirect(url_for('login'))
 
+    # ========== POST请求处理文件上传 ==========
     if request.method == 'POST':
-        if 'file' not in request.files:
-            return "No file part"
-        file = request.files['file']
-        if file.filename == '':
-            return "No selected file"
-
-        # 使用 os.path.join 来构建路径，确保跨平台兼容
-        filename = os.path.join('uploads', file.filename)
-
-        # 确保上传的文件路径是绝对路径
-        absolute_path = os.path.abspath(filename)
-
-        # 保存上传的文件
-        file.save(absolute_path)
-
-        # 打印保存的文件路径
-        print(f"Uploaded file saved at {absolute_path}")
-
-        # 尝试读取文件，确保文件有效
         try:
-            # 使用 OpenCV 检查图片是否可以读取
-            img = cv2.imread(absolute_path)
+            # 原有的文件处理逻辑保持完全一致
+            if 'file' not in request.files:
+                return "No file part"
 
+            file = request.files['file']
+            if file.filename == '':
+                return "No selected file"
+
+            # 安全处理文件名
+            filename = secure_filename(file.filename)
+            upload_dir = 'uploads'
+            os.makedirs(upload_dir, exist_ok=True)
+            file_path = os.path.join(upload_dir, filename)
+            file.save(file_path)
+
+            # 验证图片有效性
+            img = cv2.imread(file_path)
             if img is None:
-                return f"Error: The file at {absolute_path} is not a valid image file or is corrupted."
+                os.remove(file_path)
+                return "Invalid image file"
 
-            # 使用 EasyOCR 识别图片内容
-            recognized_text = recognize_document(absolute_path)
+            # OCR识别
+            recognized_text = recognize_document(file_path)
 
-            # 存储识别结果到数据库
-            user_id = session.get('user_id')  # 获取当前用户的ID
-            document_type = '身份证'  # 假设用户上传的是身份证
-            History.save(user_id, document_type, recognized_text, mysql)  # 传递mysql实例
+            # 存储到数据库
+            History.save(session['user_id'], '身份证', recognized_text, mysql)
 
             return render_template('result.html', text=recognized_text)
 
         except Exception as e:
             return f"Error: {str(e)}"
 
-    return render_template('upload.html')
-
+    # ========== GET请求渲染上传页面 ==========
+    return render_template('upload.html')  # 新增GET处理
 
 
 # 查看历史记录

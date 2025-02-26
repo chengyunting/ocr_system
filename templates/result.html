@@ -5,6 +5,7 @@
 {% block content %}
 <h1>Recognition Result</h1>
 <form method="POST" action="{{ url_for('save_recognition') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <textarea name="recognized_text" rows="10" cols="50">{{ text }}</textarea>
     <button type="submit">保存</button>
 </form>

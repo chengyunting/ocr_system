@@ -3,4 +3,4 @@ flask-mysqldb
 pytesseract
 pillow
 mysqlclient
-pip install flask-login -i https://mirrors.aliyun.com/pypi/simple/
+pip install Flask-WTF -i https://mirrors.aliyun.com/pypi/simple/

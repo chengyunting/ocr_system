@@ -3,23 +3,133 @@
 {% block title %}上传文档{% endblock %}
 
 {% block content %}
-<div class="card border-0">
-    <div class="card-header bg-transparent text-center">
-        <h3 class="mb-0"><i class="fas fa-file-upload me-2"></i>上传文档</h3>
-    </div>
-    <div class="card-body">
-        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
-            <div class="mb-4">
-                <label class="form-label">选择文件</label>
-                <div class="input-group">
-                    <input type="file" name="file" class="form-control" required>
+<link href="{{ url_for('static', filename='css/custom_upload.css') }}" rel="stylesheet">
+
+<div class="upload-container">
+    <div class="upload-card">
+        <!-- 标题保持原样 -->
+        <div class="upload-header text-center mb-5">
+            <i class="material-icons-outlined display-4 text-primary">cloud_upload</i>
+            <h2 class="h3 mt-3 text-muted">上传证件文档</h2>
+        </div>
+
+        <!-- 图片编辑区域保持原样 -->
+        <div class="image-editor mb-4">
+            <div class="image-preview-container" id="previewContainer">
+                <!-- 默认状态保持原样 -->
+                <div class="default-preview">
+                    <i class="material-icons-outlined">photo_camera</i>
+                    <p>点击选择或拖拽图片至此</p>
                 </div>
+                <!-- 图片预览保持原样 -->
+                <img id="imagePreview" class="preview-image">
             </div>
-            <div class="mb-4 text-center" id="preview"></div>
-            <button type="submit" class="btn btn-primary w-100">
-                <i class="fas fa-check-circle me-2"></i> 上传并识别
+
+            <!-- 操作按钮组保持原样 -->
+            <div class="editor-tools mt-3">
+                <button type="button" class="btn btn-outline-primary btn-sm" id="rotateLeft">
+                    <i class="material-icons-outlined">rotate_left</i>
+                </button>
+                <button type="button" class="btn btn-outline-primary btn-sm" id="rotateRight">
+                    <i class="material-icons-outlined">rotate_right</i>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" id="confirmCrop">
+                    <i class="material-icons-outlined">check</i> 确认裁剪
+                </button>
+            </div>
+        </div>
+
+        <!-- 上传表单保持原样 -->
+        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-4">
+                <input type="file" name="file" id="fileInput" class="form-control" accept="image/*" required>
+            </div>
+            <input type="hidden" name="cropData" id="cropData">
+            <button type="submit" class="btn btn-primary w-100 py-2">
+                <i class="material-icons-outlined me-2">file_upload</i>
+                上传并识别
             </button>
         </form>
     </div>
 </div>
+
+<!-- 引入Cropper.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<script>
+let cropper;
+const image = document.getElementById('imagePreview');
+
+// 文件选择事件
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    const container = document.querySelector('.image-preview-container');
+
+    reader.onload = function(event) {
+        if (cropper) cropper.destroy();
+        image.src = event.target.result;
+
+        image.onload = () => {
+            container.classList.add('has-image');
+             cropper = new Cropper(image, {
+                viewMode: 1,
+                autoCropArea: 1,
+                aspectRatio: NaN,
+                zoomable: false,
+                zoomOnTouch: false,
+                zoomOnWheel: false,
+                ready() {
+                    const container = this.cropper.getContainerData();
+                    const canvas = this.cropper.getCanvasData();
+
+                    // 精准居中算法
+                    const left = (container.width - canvas.naturalWidth) / 2;
+                    const top = (container.height - canvas.naturalHeight) / 2;
+
+                    this.cropper.setCanvasData({
+                        left: left,
+                        top: top
+                    });
+                }
+            });
+        };
+    };
+    reader.readAsDataURL(file);
+});
+
+// 旋转控制
+document.getElementById('rotateLeft').addEventListener('click', () => cropper.rotate(-90));
+document.getElementById('rotateRight').addEventListener('click', () => cropper.rotate(90));
+
+// 确认裁剪
+document.getElementById('confirmCrop').addEventListener('click', () => {
+    const canvas = cropper.getCroppedCanvas();
+    canvas.toBlob((blob) => {
+        const file = new File([blob], document.getElementById('fileInput').files[0].name, { type: 'image/jpeg' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        document.getElementById('fileInput').files = dataTransfer.files;
+        image.src = URL.createObjectURL(blob);
+    }, 'image/jpeg');
+});
+
+// 拖拽上传
+const dropZone = document.querySelector('.image-preview-container');
+dropZone.addEventListener('dragover', (e) => e.preventDefault());
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        document.getElementById('fileInput').files = dataTransfer.files;
+        document.getElementById('fileInput').dispatchEvent(new Event('change'));
+    }
+});
+</script>
 {% endblock %}

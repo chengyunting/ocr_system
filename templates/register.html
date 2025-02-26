@@ -14,6 +14,7 @@
 
             <!-- 注册表单 -->
             <form method="POST" class="px-3">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <!-- 用户名 -->
                 <div class="input-group mb-4">
                     <span class="input-group-text bg-transparent border-end-0">

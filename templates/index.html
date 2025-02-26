@@ -12,7 +12,15 @@
                 </div>
                 <div class="card-body">
                     <p>这里是首页的内容，您可以开始使用 OCR 识别系统，上传证件并查看历史记录。</p>
-                    <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">开始上传</a>
+<!--                    <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">开始上传</a>-->
+<!--                    &lt;!&ndash; 修改后（推荐方案） &ndash;&gt;-->
+<!--                    <form action="{{ url_for('upload') }}" method="GET">-->
+<!--                        <button type="submit" class="btn btn-primary">开始上传</button>-->
+<!--                    </form>-->
+                    <a href="{{ url_for('upload') }}" class="btn btn-primary">
+                        开始上传
+                        <!-- 保持普通链接形式 -->
+                    </a>
                 </div>
             </div>
         </div>
