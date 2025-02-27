@@ -47,12 +47,6 @@
     display: block !important;
 }
 
-.editor-tools {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    margin-top: 1rem;
-}
 
 @media (max-width: 768px) {
     .image-preview-container {
@@ -118,13 +112,28 @@
     object-fit: contain !important;
 }
 
-/* 操作按钮容器定位 */
+/* 修改按钮容器样式 */
 .editor-tools {
-    position: absolute;
-    bottom: -50px; /* 下移50px避开容器 */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+/* 调整按钮样式 */
+.editor-tools button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.editor-tools button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 /* 默认提示精准居中 */
@@ -135,4 +144,18 @@
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 2;
+}
+
+/* 移动端适配调整 */
+@media (max-width: 768px) {
+    .editor-tools {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .editor-tools button {
+        flex: 1 1 45%;
+        white-space: nowrap;
+    }
 }

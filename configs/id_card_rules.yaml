@@ -1,0 +1,8 @@
+# 身份证字段正则表达式规则
+rules:
+  name:
+    region: [100, 50, 300, 100]  # 姓名区域坐标 (x1,y1,x2,y2)
+  id_number:
+    pattern: "^[1-9]\d{16}[\dXx]$"  # 身份证号正则
+  birth_date:
+    pattern: "\d{4}年\d{1,2}月\d{1,2}日"  # 出生日期格式

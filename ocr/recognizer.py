@@ -1,21 +1,29 @@
-import easyocr
-import cv2  # OpenCV 用于加载图像
+from paddleocr import PaddleOCR
+import cv2
+
 
 def recognize_document(image_path):
-    # 使用 OpenCV 检查图片是否正确加载
-    image = cv2.imread(image_path)
+    # 初始化OCR引擎
+    ocr = PaddleOCR(
+        use_angle_cls=True,
+        lang="ch",
+        use_gpu=False,
+        layout=True
+    )
 
-    if image is None:
-        raise ValueError(f"Failed to load image at path: {image_path}")
+    # 图像预处理
+    img = cv2.imread(image_path)
+    if img is None:
+        raise ValueError(f"无法加载图像: {image_path}")
 
-    # 创建 EasyOCR 读取器
-    reader = easyocr.Reader(['ch_sim', 'en'])  # 支持中文和英文识别，你可以根据需要调整语言
-    # 识别图片
-    result = reader.readtext(image_path)
+    # OCR识别
+    result = ocr.ocr(img, cls=True)
 
-    # 提取识别的文本（不包含 Confidence 信息）
+    # 提取文本
     recognized_text = ""
-    for (bbox, text, prob) in result:
-        recognized_text += f"{text}\n"  # 去掉 Confidence 信息，只保留文本
+    for line in result:
+        for word_info in line:
+            text = word_info[1][0]
+            recognized_text += f"{text}\n"
 
     return recognized_text

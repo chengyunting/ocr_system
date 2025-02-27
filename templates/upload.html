@@ -7,44 +7,42 @@
 
 <div class="upload-container">
     <div class="upload-card">
-        <!-- 标题保持原样 -->
+        <!-- 标题 -->
         <div class="upload-header text-center mb-5">
             <i class="material-icons-outlined display-4 text-primary">cloud_upload</i>
             <h2 class="h3 mt-3 text-muted">上传证件文档</h2>
         </div>
 
-        <!-- 图片编辑区域保持原样 -->
+        <!-- 图片预览区域（区块1） -->
         <div class="image-editor mb-4">
             <div class="image-preview-container" id="previewContainer">
-                <!-- 默认状态保持原样 -->
                 <div class="default-preview">
                     <i class="material-icons-outlined">photo_camera</i>
                     <p>点击选择或拖拽图片至此</p>
                 </div>
-                <!-- 图片预览保持原样 -->
                 <img id="imagePreview" class="preview-image">
-            </div>
-
-            <!-- 操作按钮组保持原样 -->
-            <div class="editor-tools mt-3">
-                <button type="button" class="btn btn-outline-primary btn-sm" id="rotateLeft">
-                    <i class="material-icons-outlined">rotate_left</i>
-                </button>
-                <button type="button" class="btn btn-outline-primary btn-sm" id="rotateRight">
-                    <i class="material-icons-outlined">rotate_right</i>
-                </button>
-                <button type="button" class="btn btn-primary btn-sm" id="confirmCrop">
-                    <i class="material-icons-outlined">check</i> 确认裁剪
-                </button>
             </div>
         </div>
 
-        <!-- 上传表单保持原样 -->
+        <!-- 操作按钮组（区块2） -->
+        <div class="editor-tools mb-4">
+            <button type="button" class="btn btn-outline-primary btn-sm" id="rotateLeft">
+                <i class="material-icons-outlined">rotate_left</i> 左转
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-sm" id="rotateRight">
+                <i class="material-icons-outlined">rotate_right</i> 右转
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="confirmCrop">
+                <i class="material-icons-outlined">check</i> 确认裁剪
+            </button>
+        </div>
+
+        <!-- 上传表单（区块3） -->
         <form method="POST" enctype="multipart/form-data" id="uploadForm">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="mb-4">
                 <input type="file" name="file" id="fileInput" class="form-control" accept="image/*" required>
             </div>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="hidden" name="cropData" id="cropData">
             <button type="submit" class="btn btn-primary w-100 py-2">
                 <i class="material-icons-outlined me-2">file_upload</i>
