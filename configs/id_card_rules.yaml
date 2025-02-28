@@ -1,8 +1,22 @@
-# 身份证字段正则表达式规则
-rules:
-  name:
-    region: [100, 50, 300, 100]  # 姓名区域坐标 (x1,y1,x2,y2)
-  id_number:
-    pattern: "^[1-9]\d{16}[\dXx]$"  # 身份证号正则
-  birth_date:
-    pattern: "\d{4}年\d{1,2}月\d{1,2}日"  # 出生日期格式
+# 证件类型配置模板
+id_card:
+  name: 身份证
+  fields:
+    - name: 姓名
+      region: [100, 50, 300, 100]  # 坐标范围 (x1,y1,x2,y2)
+      regex: "^[\u4e00-\u9fa5]{2,4}$"  # 2-4个汉字
+    - name: 身份证号
+      regex: "^[1-9]\d{16}[\dXx]$"
+driver_license:
+  name: 驾驶证
+  fields:
+    - name: 姓名
+      region: [80, 60, 250, 120]
+      regex: "^[\u4e00-\u9fa5]{2,4}$"
+    - name: 证号
+      regex: "^\d{12}$"
+social_security_card:
+  name: 社保卡
+  fields:
+    - name: 社保号
+      regex: "^\d{9}$"

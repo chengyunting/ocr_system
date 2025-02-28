@@ -1,6 +1,6 @@
 import hashlib
-import os
-import cv2  # 加入 OpenCV 导入
+# import os
+# import cv2  # 加入 OpenCV 导入
 from flask import Flask, render_template, request, redirect, url_for, session
 from ocr.recognizer import recognize_document  # 假设你有这个OCR识别函数
 from models.user_model import User
