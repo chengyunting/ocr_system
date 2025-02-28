@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}Recognition Result{% endblock %}
+{% block title %}识别结果{% endblock %}
 
 {% block content %}
-<h1>Recognition Result</h1>
-<form method="POST" action="{{ url_for('save_recognition') }}">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <textarea name="recognized_text" rows="10" cols="50">{{ text }}</textarea>
-    <button type="submit">保存</button>
-</form>
+<div class="result-container">
+    <h1>{{ doc_type }}识别结果</h1>
+
+    <!-- 结构化展示区块 -->
+    <div class="result-box">
+    {% for key, value in fields.items() if value %}
+    <div class="field-row">
+        <span class="field-name">{{ key }}：</span>
+        <input
+            type="text"
+            name="{{ key }}"
+            value="{{ value }}"
+            class="form-control"
+        >
+    </div>
+    {% endfor %}
+    </div>
+
+    <!-- 原文本编辑表单（默认隐藏，调试时可开启） -->
+    <form method="POST" action="{{ url_for('save_recognition') }}" style="margin-top: 20px;">
+        <input type="hidden" name="document_type" value="{{ doc_type }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <textarea
+            name="recognized_text"
+            rows="10"
+            cols="50"
+            style="display: none;"
+        >{{ text }}</textarea>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form>
+</div>
 {% endblock %}

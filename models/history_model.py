@@ -1,7 +1,11 @@
+import json
+
 class History:
     @staticmethod
-    def save(user_id, document_type, recognition_text, mysql):
+    def save(user_id, document_type, structured_data, mysql):
         cursor = mysql.connection.cursor()
+        # 将字典转为JSON字符串存储
+        recognition_text = json.dumps(structured_data, ensure_ascii=False)
         cursor.execute(
             "INSERT INTO recognition_history (user_id, document_type, recognition_text) VALUES (%s, %s, %s)",
             (user_id, document_type, recognition_text)

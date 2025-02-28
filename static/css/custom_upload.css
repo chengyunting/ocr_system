@@ -159,3 +159,28 @@
         white-space: nowrap;
     }
 }
+/* 证件类型选择样式 */
+.form-select {
+    border-left: 0 !important;
+    cursor: pointer;
+}
+
+/* 结果页面样式 */
+.doc-type {
+    color: #2d4059;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 0.5rem;
+}
+
+.result-box {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid #dee2e6;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-family: 'Noto Sans SC';
+}

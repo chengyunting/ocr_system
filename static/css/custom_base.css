@@ -79,3 +79,51 @@ body {
         justify-content: center;
     }
 }
+/* 结果容器 */
+.result-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 键值对展示区块 */
+.result-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.field-row {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.field-name {
+    color: #2d4059;
+    font-weight: 500;
+    min-width: 160px;
+    flex-shrink: 0;
+}
+
+.field-value {
+    color: #4a5568;
+    word-break: break-word;  /* 长文本自动换行 */
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .field-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .field-name {
+        margin-bottom: 0.5rem;
+    }
+}

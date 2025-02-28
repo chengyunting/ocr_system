@@ -39,6 +39,17 @@
 
         <!-- 上传表单（区块3） -->
         <form method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="input-group mb-4">
+                <span class="input-group-text bg-transparent border-end-0">
+                    <i class="material-icons-outlined">credit_card</i>
+                </span>
+                <select class="form-select border-start-0" name="document_type" required>
+                    <option value="">请选择证件类型</option>
+                    <option value="id_card">身份证</option>
+                    <option value="driver_license">驾驶证</option>
+                    <option value="social_security">社保卡</option>
+                </select>
+            </div>
             <div class="mb-4">
                 <input type="file" name="file" id="fileInput" class="form-control" accept="image/*" required>
             </div>

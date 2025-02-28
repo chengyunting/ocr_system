@@ -1,16 +1,13 @@
 import hashlib
+import json
+
 # import os
 # import cv2  # 加入 OpenCV 导入
 from flask import Flask, render_template, request, redirect, url_for, session
-from ocr.recognizer import recognize_document  # 假设你有这个OCR识别函数
-from models.user_model import User
 from models.history_model import History
 from config import Config
 from flask_mysqldb import MySQL
 #upload新添加
-from werkzeug.utils import secure_filename
-import base64
-import tempfile
 from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
@@ -18,7 +15,12 @@ app.config.from_object(Config)  # 加载配置文件
 app.secret_key = 'sup3r_s3cr3t_k3y!123'  # 必须设置
 csrf = CSRFProtect(app)  # 新增此行初始化 CSRF
 mysql = MySQL(app)  # 在这里初始化数据库连接
-
+# 证件类型中英对照
+DOCUMENT_TYPE_NAMES = {
+    "id_card": "身份证",
+    "driver_license": "驾驶证",
+    "social_security": "社保卡"
+}
 
 @app.route('/')
 def index():
@@ -82,11 +84,8 @@ def history():
 
 
 from werkzeug.utils import secure_filename
-import base64
-import tempfile
 import os
 import cv2
-
 
 @app.route('/upload', methods=['GET', 'POST'])  # 允许GET和POST方法
 def upload():
@@ -118,40 +117,55 @@ def upload():
                 os.remove(file_path)
                 return "Invalid image file"
 
-            # OCR识别
-            recognized_text = recognize_document(file_path)
+            # OCR识别（修改此处）
+            document_type = request.form.get('document_type')
 
-            # 存储到数据库
-            History.save(session['user_id'], '身份证', recognized_text, mysql)
+            # OCR识别部分修改后代码
+            if document_type == "id_card":
+                document_type='身份证'
+                from recognizers.id_recognizer import recognize_id_card
+                structured_data = recognize_id_card(file_path)  # 变量名改为 structured_data
+            elif document_type == "driver_license":
+                document_type = '驾驶证'
+                from recognizers.driver_recognizer import recognize_driver_license
+                structured_data = recognize_driver_license(file_path)
+            elif document_type == "social_security":
+                document_type = '社保卡'
+                from recognizers.social_recognizer import recognize_social_security
+                structured_data = recognize_social_security(file_path)
 
-            return render_template('result.html', text=recognized_text)
+            # 存储时带上证件类型
+            History.save(session['user_id'], document_type, structured_data, mysql)
+
+            # 确保传递名为 fields 的字典参数
+            return render_template('result.html',
+                                   doc_type=document_type,  # 证件类型（如"身份证"）
+                                   fields=structured_data  # 结构化字典（必须包含键值对）
+                                   )
 
         except Exception as e:
             return f"Error: {str(e)}"
 
-    # ========== GET请求渲染上传页面 ==========
-    return render_template('upload.html')  # 新增GET处理
+    return render_template('upload.html')
 
 
-# 查看历史记录
-@app.route('/save_recognition', methods=['POST'])
+# 保存识别结果
+@app.route('/save_recognition', methods=['POST','GET'])
 def save_recognition():
     if 'user_id' not in session:
-        return redirect(url_for('login'))  # 如果没有登录，重定向到登录页
+        return redirect(url_for('login'))
 
-    # 获取识别的文本
+    # 获取表单数据
     recognized_text = request.form.get('recognized_text')
+    document_type = request.form.get('document_type')  # 新增此行
 
-    # 获取当前登录的用户ID
+    # 获取用户ID
     user_id = session.get('user_id')
 
-    # 假设文档类型是身份证
-    document_type = '身份证'
-
-    # 将识别结果保存到数据库
+    # 保存到数据库（document_type 动态传入）
     try:
-        History.save(user_id, document_type, recognized_text, mysql)  # 调用 save 方法保存到数据库
-        return redirect(url_for('history'))  # 重定向到历史记录页面
+        History.save(user_id, document_type, recognized_text, mysql)
+        return redirect(url_for('history'))
     except Exception as e:
         return f"Error: {str(e)}"
 
