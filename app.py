@@ -1,6 +1,6 @@
 import hashlib
 import json
-
+# gh browse --commit d0724b0f41d4ea0ab8fc5cc1d9046ad8ee70fdb4
 # import os
 # import cv2  # 加入 OpenCV 导入
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -149,7 +149,7 @@ def upload():
     return render_template('upload.html')
 
 
-# 保存识别结果
+#保存识别结果__meiyong
 @app.route('/save_recognition', methods=['POST','GET'])
 def save_recognition():
     if 'user_id' not in session:
